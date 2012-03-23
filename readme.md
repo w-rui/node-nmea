@@ -23,8 +23,8 @@ Features
     (it doesn't read the serial or USB input. you have to get the sentences from somewhere yourself)
 
     has built-in support for several of the most common NMEA sentences
-        GPGGA
-        GPRMC
+
+    GPGGA,GPRMC
 
     lets you add sentence parsers for those not built-in (there are literally dozens of standard and proprietary sentence types)
 * takes geographic location input and encodes it into valid NMEA-0183 sentences
