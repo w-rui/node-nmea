@@ -1,0 +1,11 @@
+{
+    "name": "nmea",
+    "description": "an NMEA parser/encoder library",
+    "version": "0.0.1",
+    "author": "david howard <dmh2000@gmail.com>",
+    "keywords": ["nmea", "gps"],
+    "devDependencies": {
+        "mocha": "*"
+      },
+
+}
