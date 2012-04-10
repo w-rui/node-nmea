@@ -1,11 +1,19 @@
 {
-    "name": "nmea",
-    "description": "an NMEA parser/encoder library",
-    "version": "0.0.1",
-    "author": "david howard <dmh2000@gmail.com>",
-    "keywords": ["nmea", "gps"],
-    "devDependencies": {
-        "mocha": "*"
-      },
-
+  "author": "David Howard <dmh2000@gmail.com>",
+  "name": "nmea",
+  "description": "an NMEA-0183 parser/encoder library",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dmh2000/node-nmea.git"
+  },
+  "scripts": {
+    "test": "make"
+  },
+  "engines": {
+    "node": "~0.6.10"
+  },
+  "dependencies": {},
+  "devDependencies": {"mocha":"*"},
+  "optionalDependencies": {}
 }
