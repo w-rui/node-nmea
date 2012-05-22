@@ -1,9 +1,11 @@
 {
-    "name": "nmea-app"
+    "name": "nmea-tty-example-app"
   , "version": "0.0.1"
   , "dependencies": {
-      "express": "2.5.8"
-    , "ejs": ">= 0.0.1"
-    , "socket.io": ">= 0.0.1"
+      // these are the versions i used to test this app. it should work with others
+      "express":   "2.5.8"
+    , "ejs":       "0.7.1"
+    , "socket.io": "0.9.6"
+    , "serialport":"0.7.3"    // https://github.com/voodootikigod/node-serialport
   }
 }
