@@ -15,8 +15,8 @@ suite('nmea',function() {
         assert.ok(n !== null,'parser result not null');
         if (n !== null) {
             assert.ok(n.id === s,s + '!== ' + n.id);
-            assert.strictEqual(n.latitude,48.0 + (7.038 / 60.0),'latitude');
-            assert.strictEqual(n.longitude,11.0 + (31.324 / 60.0),'longitude');
+            assert.strictEqual(n.latitude,(48.0 + (7.038 / 60.0)).toFixed(8),'latitude');
+            assert.strictEqual(n.longitude,(11.0 + (31.324 / 60.0)).toFixed(8),'longitude');
             assert.strictEqual(n.fix,1,'fix');
             assert.strictEqual(n.satellites,8,'sats');
             assert.strictEqual(n.hdop,0.9,'hdop');
@@ -34,8 +34,8 @@ suite('nmea',function() {
         assert.ok(n !== null,'parser result not null');
         if (n !== null) {
             assert.ok(n.id === s,s + '!== ' + n.id);
-            assert.strictEqual(n.latitude,48.0 + (7.038 / 60.0),'latitude');
-            assert.strictEqual(n.longitude,11.0 + (31.324 / 60.0),'longitude');
+            assert.strictEqual(n.latitude,(48.0 + (7.038 / 60.0)).toFixed(8),'latitude');
+            assert.strictEqual(n.longitude,(11.0 + (31.324 / 60.0)).toFixed(8),'longitude');
             assert.strictEqual(n.fix,1,'fix');
             assert.strictEqual(n.satellites,8,'sats');
             assert.strictEqual(n.hdop,0.9,'hdop');
@@ -54,14 +54,47 @@ suite('nmea',function() {
             assert.ok(n.id === s,s + '!== ' + n.id);
             assert.equal(n.time,'081836','time');
             assert.equal(n.valid,'A','valid');
-            assert.strictEqual(n.latitude,-(37.0 + (51.65/60.0)),'latitude');
-            assert.strictEqual(n.longitude,145.0 + (7.36 / 60.0),'longitude');
+            assert.strictEqual(n.latitude,(-(37.0 + (51.65/60.0))).toFixed(8),'latitude');
+            assert.strictEqual(n.longitude,(145.0 + (7.36 / 60.0)).toFixed(8),'longitude');
             assert.strictEqual(n.speed,0.0,'speed');
             assert.strictEqual(n.course,360.0,'course');
             assert.equal(n.date,'130998','date');
             assert.strictEqual(n.variation,-11.3,'variation');
             assert.strictEqual(n.datetime.toUTCString(),'Tue, 13 Oct 1998 08:18:36 GMT','datetime');
         }
+    });
+    
+    // $GPGSV,3,2,12,16,17,148,46,20,61,307,51,23,36,283,47,25,06,034,00*78
+    test("parse GPGSV",function() {
+      var s = "GPGSV";
+      var n = nmea.parse("$GPGSV,3,2,12,16,17,148,46,20,61,307,51,23,36,283,47,25,06,034,00*78");
+      assert.ok(n != null,'parser result not null');
+      if (n !== null) {
+        assert.ok(n.id === s,s + '!== ' + n.id);
+        assert.strictEqual(n.msgs,3,'message count');
+        assert.strictEqual(n.mnum,2,'message number');
+        assert.strictEqual(n.count,12,'total satellites in view');
+ 
+        assert.strictEqual(n.sat[0].prn,16,'sat 0 prn');
+        assert.strictEqual(n.sat[0].el,17,'sat 0 el');
+        assert.strictEqual(n.sat[0].az,148,'sat 0 az');
+        assert.strictEqual(n.sat[0].ss,46,'sat 0 ss');
+        
+        assert.strictEqual(n.sat[1].prn,20,'sat 1 prn');
+        assert.strictEqual(n.sat[1].el,61,'sat 1 el');
+        assert.strictEqual(n.sat[1].az,307,'sat 1 az');
+        assert.strictEqual(n.sat[1].ss,51,'sat 1 ss');
+        
+        assert.strictEqual(n.sat[2].prn,23,'sat 2 prn');
+        assert.strictEqual(n.sat[2].el,36,'sat 2 el');
+        assert.strictEqual(n.sat[2].az,283,'sat 2 az');
+        assert.strictEqual(n.sat[2].ss,47,'sat 2 ss');
+        
+        assert.strictEqual(n.sat[3].prn,25,'sat 3 prn');
+        assert.strictEqual(n.sat[3].el,6,'sat 3 el');
+        assert.strictEqual(n.sat[3].az,34,'sat 3 az');
+        assert.strictEqual(n.sat[3].ss,0,'sat 3 ss');
+      }
     });
     
     test("encode latitude",function() {
@@ -163,13 +196,26 @@ suite('nmea',function() {
         
         console.log();
         assert.ok(nmea.error != null,'standard error handler not null');
-        assert.equal(nmea.addParser(null),null,'null parser');
         
-        n = nmea.parse("$GPGGA,123519,4807.038,N,01131.324,E,1,08,0.9,545.4,M,46.9,M");
-        assert.equal(n,null,'GGA not enough tokens');
+        assert.throws(function() {
+          nmea.addParser(null)
+          },
+          Error,
+          'null parser');
         
-        n = nmea.parse("$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3");
-        assert.equal(n,null,'RMC not enough tokens');
+        // n = nmea.parse("$GPGGA,123519,4807.038,N,01131.324,E,1,08,0.9,545.4,M,46.9,M");
+        assert.throws(function() {
+          nmea.parse("$GPGGA,123519,4807.038,N,01131.324,E,1,08,0.9,545.4,M,46.9,M");
+          },
+          Error,
+          'GGA not enough tokens');
+        
+        // n = nmea.parse("$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3");
+        assert.throws(function() {
+          nnmea.parse("$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3");
+          },
+          Error,
+          'RMC not enough tokens');
         
     });
     
