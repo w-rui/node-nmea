@@ -47,11 +47,9 @@ var client = null;
 tty.start('/dev/ttyS0',
   // callback s==data object,r= raw sentence
   function(s,r) {
-    // print the sentence locally for debug
-    console.log(r);
-    // store latest data
+    // send latest data to client
     if (client !== null) {
-      client.send(JSON.stringify(s));
+      client.send(JSON.stringify({data:s,raw:r}));
     }
   }
 );

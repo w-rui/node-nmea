@@ -10,6 +10,10 @@
   text-align:center;
 }
 
+.clabel3 {
+  text-align:center;
+}
+
 .cdata0 {
   text-align:left;
 }
@@ -19,6 +23,14 @@
 }
 
 .cdata2 {
+  text-align:left;
+}
+
+.cdata3 {
+  text-align:left;
+}
+
+.count {
   text-align:left;
 }
 
@@ -33,4 +45,8 @@
 
 .large {
   font-size:larger;
+}
+
+.gray {
+  background-color:#EEEEEE;
 }
