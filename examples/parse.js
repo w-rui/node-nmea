@@ -1,5 +1,5 @@
-util = require('util'),
-nmea = require('nmea');
+var util = require('util'),
+    nmea = require('nmea');
 
 console.log(util.inspect(nmea));
 

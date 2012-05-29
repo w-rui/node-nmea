@@ -1,10 +1,12 @@
-require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,ud,bt,xmn,sio) {
+"use strict";
+
+require(['jquery','bootstrap','examine','/socket.io/socket.io.js','underscore'],function(jq,bt,xmn,sio,ud) {
 
   var gga_count = 0;
   var rmc_count = 0;
   var gsv_count = 0;
-  
-  var gprmcHeaders =   
+
+  var gprmcHeaders =
   [ 'id:',
     'time:',
     'valid:',
@@ -13,10 +15,10 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
     'speed:',
     'course:',
     'date:',
-    'variation:',
+    'variation:'
   ];
-  
-  var gpggaHeaders = 
+
+  var gpggaHeaders =
   [
     'id:',
     'time:',
@@ -31,7 +33,7 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
     'dgpsRef:'
   ];
 
-  var gpgsvHeaders = 
+  var gpgsvHeaders =
   [
     'id',
     'messages',
@@ -50,7 +52,7 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
     'sat',
     'sat'
   ];
-  
+
   var updateGGA = function(gpgga,raw) {
     var gga;
     var s;
@@ -64,14 +66,14 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
         $(this).text(s);
       }
     });
-    
+
     // raw text list element
     $('#gga').text(raw);
-    
+
     // count indicator
     gga_count++;
     $('#gga-count').text(gga_count.toString());
-  }
+  };
 
   var updateRMC = function(gprmc,raw) {
     var rmc;
@@ -89,19 +91,18 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
 
     // raw text list element
     $('#rmc').text(raw);
-    
+
     // count indicator
     rmc_count++;
-    $('#rmc-count').text(rmc_count.toString());    
-  }
-  
+    $('#rmc-count').text(rmc_count.toString());
+  };
+
   var updateGSV = function(gpgsv,raw) {
     var gsv = [];
-    var sat;
     var s;
     var a;
-    var r; 
     var j;
+    var row;
     a = _.toArray(gpgsv);
     // get first 4 elements which are static
     gsv = a.slice(0,4);
@@ -126,8 +127,8 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
         }
         $(this).text(s);
       }
-    });    
-    
+    });
+
     j = 0;
     $('#nmea .cdata2').each(function(i) {
       if ((row <= i)&&(i < (row + 4))) {
@@ -138,18 +139,18 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
         $(this).text(s);
         j++;
       }
-    });    
+    });
     // raw text list element
     $('#gsv').text(raw);
-    
+
     // count indicator
     gsv_count++;
     $('#gsv-count').text(gsv_count.toString());
-  }
-      
+  };
+
   $(document).ready(function() {
     var socket;
-    
+
     // populate the first column of labels
     $('#nmea .clabel0').each(function(i) {
       if (i < gpggaHeaders.length) {
@@ -171,16 +172,16 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
         $(this).addClass('label');
       }
     });
-    
+
     // start the socket updates
     socket = io.connect();
-    
+
     socket.on('connect',function() {
       $('#status').removeClass('label-warning');
       $('#status').addClass('label-success');
       $('#status').text('connected');
     });
-    
+
     socket.on('message',function(msg) {
       var a = JSON.parse(msg);
       switch(a.data.id) {
@@ -197,11 +198,11 @@ require(['jquery','bootstrap','examine','/socket.io/socket.io.js'],function(jq,u
         break;
       }
     });
-    
+
     socket.on('disconnect',function() {
       $('#status').removeClass('label-success');
       $('#status').addClass('label-warning');
       $('#status').text('not connected');
-    })
+    });
   });
 });

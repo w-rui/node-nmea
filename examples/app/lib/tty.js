@@ -5,7 +5,7 @@ var tty = {
 
   // don't print errors
   start : function(port,callback) {
-    nmea.setErrorHandler(function(s) {});
+    nmea.setErrorHandler(function() {});
   
     // open the serial port at the required baud rate and use the line parser
     // note that NMEA output uses \r\n instead of just \n as a line delimiter

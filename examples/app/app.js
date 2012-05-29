@@ -1,7 +1,8 @@
-var express  = require('express')
-  , socketio = require('socket.io')
-  , routes   = require('./routes')
-  , tty      = require('./lib/tty.js')
+"use strict";
+var express  = require('express'),
+  socketio = require('socket.io'),
+  routes   = require('./routes'),
+  tty      = require('./lib/tty.js');
 
 var app = module.exports = express.createServer();
 var io  = socketio.listen(app);
@@ -31,7 +32,7 @@ io.configure('production',function() {
 
 io.configure('development',function() {
   io.set('log level',2);
-})
+});
 
 // Routes
 
