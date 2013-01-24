@@ -1,2 +1,2 @@
-module.exports = require('./lib/nmea001.js');
+module.exports = require('./lib/NMEA.js');
 
