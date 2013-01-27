@@ -94,6 +94,25 @@ describe('nmea',function() {
         assert.strictEqual(n.sat[3].ss,0,'sat 3 ss');
       }
     });
+    it("parse GPGSA",function() {
+        var s = 'GPGSA';
+        var n = nmea.parse("$GPGSA,A,3,13,07,04,08,17,10,,,,,,,4.3,2.8,3.2*30");
+        assert.ok(n !== null,'parser result not null');
+        if (n !== null) {
+            assert.ok(n.id === s,s + '!== ' + n.id);
+            assert.equal(n.mode, 'A');
+            assert.equal(n.fix, 3);
+            assert.equal(n.sat[0], '13');
+            assert.equal(n.sat[1], '07');
+            assert.equal(n.sat[2], '04');
+            assert.equal(n.sat[3], '08');
+            assert.equal(n.sat[4], '17');
+            assert.equal(n.sat[5], '10');
+            assert.strictEqual(n.pdop,4.3,'pdop');
+            assert.strictEqual(n.hdop,2.8,'hdop');
+            assert.strictEqual(n.vdop,3.2,'vdop');
+        }
+    });
 
     it("encode latitude",function() {
         var s;
@@ -177,7 +196,8 @@ describe('nmea',function() {
             lon:145.12266,
             speed:0,
             course:360.0,
-            variation:-11.3
+            variation:-11.3,
+            mode: 'E'
         });
         if (s !== null) {
             assert.strictEqual(s,'$GPRMC,081836,A,3751.650,S,14507.360,E,000.0,360.0,130998,011.3,E*62','GPRMC');
@@ -186,6 +206,10 @@ describe('nmea',function() {
             assert.ok(s !== null);
         }
     });
+
+    it("GSV decoder", function() {
+
+    })
 
     it("error handlers",function() {
         var n;
