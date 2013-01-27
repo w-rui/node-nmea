@@ -113,6 +113,18 @@ describe('nmea',function() {
             assert.strictEqual(n.vdop,3.2,'vdop');
         }
     });
+    it("parse GPVTG",function() {
+        var s = 'GPVTG';
+        var n = nmea.parse("$GPVTG,276.8,T,,M,018.1,N,000.0,K,A*0E");
+        assert.ok(n !== null,'parser result not null');
+        if (n !== null) {
+            assert.ok(n.id === s,s + '!== ' + n.id);
+            assert.equal(n.course, 276.8);
+            assert.equal(n.knots, 18.1);
+            assert.equal(n.kph, 0);
+            assert.equal(n.mode, 'A');
+        }
+    });
 
     it("encode latitude",function() {
         var s;
