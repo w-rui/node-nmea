@@ -1,19 +1,7 @@
-node-nmea
+nmea-0183
 =========
 
 An extensible parser and encoder for NMEA-0183 sentences for use with node.js.
-
-If you are not familiar with NMEA-0183, look it up on Wikipedia.
-
-NMEA-0183 is an ASCII output format supported by most GPS units and is 
-used to output the geographical position (latitude/longitude etc) and a lot of other information about the GPS unit. 
-If you have a GPS attached to your server or a GPS feed from some other source, 
-and want to parse its output, this module will help you do that. If you have some geographic coordinates
-and you want to output NMEA-0183 data to another program (e.g. a map program) this library has functions to encode the data properly.
-
-A couple of good references for NMEA-0183 sentence formats are
-[Peter Bennett NMEA FAQ](http://vancouver-webpages.com/peter/nmeafaq.txt) , [GPS-NMEA sentence information](http://aprs.gids.nl/nmea/), and for a [detailed description of 
-NMEA-0183 sentences and their formats](http://gpsd.berlios.de/NMEA.txt). Or, just google NMEA-0183. 
 
 Features
 ========
@@ -25,7 +13,7 @@ Features
 
     has built-in support for several of the most common NMEA sentences
 
-    GPGGA,GPRMC
+    GPGGA, GPRMC, GPGSA, GPGSV, GPVTG
 
     lets you add sentence parsers for those not built-in (there are literally dozens of standard and proprietary sentence types)
 * takes geographic location input and encodes it into valid NMEA-0183 sentences
@@ -35,51 +23,30 @@ API
 
 the NMEA object
 -----------------------
-nmea = require('nmea');
 
 The NMEA object contains the user API functions that are used to decode and encode NMEA sentences, as well as lower level functions that are used to build additional decoder and encoder extensions.
-
-###Primary Functions
-
-    function nmea.parse(String)
-        returns {object with parsed data in native format}
-        this is the function to call to parse an NMEA-0183 string into its constituent data. See example/parse.js
-        each sentence is parsed into its own set of data.
-        see example/parse.js
-        
-    function nmea.encode('sentence id',{nmea data object}) 
-        returns String representing the data in a valid NMEA-0183 sentence. 
-        this is the function to use when you have native data you wish to encode into an NMEA-0183 string.
-        the caller must supply the NMEA sentence id (5 character string e.g. 'GPGGA') along with the required data, which can be different for each nmea string.
-        Any field for which the data is not provided will be an empty string in the output  sentence string. this is allowed in the NMEA format.
-        see example/encode.js
-
-###Individual Sentence Parsers
-The sentence parsers are built in to the module or added as extensions. They do not need to be called directly by the application. They are documented here
- to show the data they return. Ideally you should inspect the output to get an up to date object definition in case the code has been updated bu the documentation hasn't.
- 
-    function nmea.GgaParser(GPGGA sentence string) 
-    returns {gga data}
-    see example/gga.js
+    nmea = require('nmea-0183')
     
-    function nmea.RmcParser(GPRMC sentence string) 
-    returns {rmc data}
-    see example/rmc.js
+    var GPGGASentence = "$GPGGA,123519,4807.038,N,01131.324,E,1,08,0.9,545.4,M,46.9,M, , *42"
 
-###Individual Sentence Encoders
-The sentence encoders are built-in to the module or added as extenstions. They do not need to be called directly by a client application.
-They are documented here  to show the data they require.
-
-    function nmea.GgaEncoder{gga data}) 
-    returns encoded string
-    sentence id 'GPGGA''
-    see example/gga.js     
-
-
-    function nmea.RmcEncoder({rmc data})
-    returns encoded string
-    sentence id 'GPRMC'
-    see example/rmc.js
+    var GPGGAObject = nmea.parse(GPGGASentence)
+    
+    console.log(JSON.stringify(GPGGAObject, null, 2))
+    
+    // result:
+    {
+        "id": "GPGGA",
+        "time": "123519",
+        "latitude": "48.11730000",
+        "longitude": "11.52206667",
+        "fix": 1,
+        "satellites": 8,
+        "hdop": 0.9,
+        "altitude": 545.4,
+        "aboveGeoid": 46.9,
+        "dgpsUpdate": "",
+        "dgpsReference": ""
+    }
 
 ###error handling  
     function error(String) outputs null. this function is an error handler that is called by the library when an error is detected.
@@ -91,41 +58,7 @@ They are documented here  to show the data they require.
     returns null
     Sets the 'error' callback function for error handling. receives a string and does whatever. 
 
-### helper functions
-* toHexString= function() returns 
-* padLeft= function() returns 
-* verifyChecksum= function() returns 
-* computeChecksum= function() returns 
-* setLatitudePrecision= function() returns 
-* getLatitudePrecision= function() returns 
-* setLongitudePrecision= function() returns 
-* getLongitudePrecision= function() returns 
-* addParser= function() returns 
-* addEncoder= function() returns 
-* encodeLatitude= function() returns 
-* encodeLongitude= function() returns 
-* encodeAltitude= function() returns 
-* encodeMagVar= function() returns 
-* encodeDegrees= function() returns 
-* encodeDate= function() returns 
-* encodeTime= function() returns 
-* encodeKnots= function() returns 
-* encodeValue= function() returns 
-* encodeFixed= function() returns 
-* parseAltitude= function() returns 
-* parseDegrees= function() returns 
-* parseFloatX= function() returns 
-* parseLatitude= function() returns 
-* parseLongitude= function() returns 
-* parseIntX= function() returns 
-* parseDateTime= function() returns 
-  
-
-
-Parser
----------
-TBD
 
 Examples
 ---------
-TBD 
+See tests
