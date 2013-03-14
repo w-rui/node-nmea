@@ -2,16 +2,13 @@
   "author": "Nicolas Herment <nherment@gmail.com>",
   "name": "nmea-0183",
   "description": "an NMEA-0183 parser/encoder library, cloned from David Howard",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "git://github.com/nherment/node-nmea.git"
   },
   "scripts": {
     "test": "mocha"
-  },
-  "engines": {
-    "node": ">=0.8.18"
   },
   "dependencies": {},
   "devDependencies": {
