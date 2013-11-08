@@ -139,6 +139,19 @@ describe('nmea',function() {
         }
     });
 
+
+    it("parse DBT", function () {
+        var s = 'IIDBT';
+        var n = nmea.parse("$IIDBT,036.41,f,011.10,M,005.99,F*25");
+        assert.ok(n !== null, 'parser result not null');
+        if (n !== null) {
+            assert.ok(n.id === s, s + '!== ' + n.id);
+            assert.equal(n.depthFeet, 36.41);
+            assert.equal(n.depthMeters, 11.1);
+        }
+    });
+
+
     it("encode latitude", function () {
         var s;
         s = Helper.encodeLatitude(48.1173);
