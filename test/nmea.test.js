@@ -126,20 +126,20 @@ describe('nmea',function() {
         }
     });
 
-  it("parse MWV",function() {
-    var s = 'IIMWV';
-    var n = nmea.parse("$IIMWV,017,R,02.91,N,A*2F");
-    assert.ok(n !== null,'parser result not null');
-    if (n !== null) {
-      assert.ok(n.id === s,s + '!== ' + n.id);
-      assert.equal(n.angle, 17);
-      assert.equal(n.reference, 'R');
-      assert.equal(n.speed, 2.91);
-      assert.equal(n.status, 'A');
-    }
-  });
+    it("parse MWV", function () {
+        var s = 'IIMWV';
+        var n = nmea.parse("$IIMWV,017,R,02.91,N,A*2F");
+        assert.ok(n !== null, 'parser result not null');
+        if (n !== null) {
+            assert.ok(n.id === s, s + '!== ' + n.id);
+            assert.equal(n.angle, 17);
+            assert.equal(n.reference, 'R');
+            assert.equal(n.speed, 2.91);
+            assert.equal(n.status, 'A');
+        }
+    });
 
-    it("encode latitude",function() {
+    it("encode latitude", function () {
         var s;
         s = Helper.encodeLatitude(48.1173);
         assert.strictEqual(s,'4807.038,N',48.1173);
