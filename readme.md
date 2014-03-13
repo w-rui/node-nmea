@@ -1,3 +1,6 @@
+
+[![Build Status](https://api.travis-ci.org/nherment/node-nmea.png?branch=master)](https://travis-ci.org/nherment/node-nmea)
+
 nmea-0183
 =========
 
