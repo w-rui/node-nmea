@@ -54,7 +54,7 @@ describe('nmea',function() {
             assert.equal(n.valid,'A','valid');
             assert.strictEqual(n.latitude,(-(37.0 + (51.65/60.0))).toFixed(8),'latitude');
             assert.strictEqual(n.longitude,(145.0 + (7.36 / 60.0)).toFixed(8),'longitude');
-            assert.strictEqual(n.speed,0.0,'speed');
+            assert.strictEqual(n.sog,0.0,'sog');
             assert.strictEqual(n.course,360.0,'course');
             assert.equal(n.date,'130998','date');
             assert.strictEqual(n.variation,-11.3,'variation');
@@ -132,10 +132,10 @@ describe('nmea',function() {
         assert.ok(n !== null, 'parser result not null');
         if (n !== null) {
             assert.ok(n.id === s, s + '!== ' + n.id);
-            assert.equal(n.angle, 17);
-            assert.equal(n.reference, 'R');
-            assert.equal(n.speed, 2.91);
-            assert.equal(n.status, 'A');
+            assert.equal(n.apparent_wind_angle, 17);
+            assert.equal(n.reference, 'relative');
+            assert.equal(n.apparent_wind_speed, 2.91);
+            assert.equal(n.status, 'data valid');
         }
     });
 
@@ -146,8 +146,8 @@ describe('nmea',function() {
         assert.ok(n !== null, 'parser result not null');
         if (n !== null) {
             assert.ok(n.id === s, s + '!== ' + n.id);
-            assert.equal(n.depthFeet, 36.41);
-            assert.equal(n.depthMeters, 11.1);
+            assert.equal(n.feet, 36.41);
+            assert.equal(n.meters, 11.1);
         }
     });
 
