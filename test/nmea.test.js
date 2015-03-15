@@ -151,6 +151,16 @@ describe('nmea',function() {
         }
     });
 
+    it("VWR parse", function() {
+       var s = "IIVWR";
+       var n = nmea.parse("$IIVWR,23.4,R,9.09,N,4.67,M,16.8,K*46");
+       assert.ok(n !== null,'parser result not null');
+       if (n !== null) {
+         assert.ok(n.id === s,s + '!== ' + n.id);
+       }
+
+    })
+
 
     it("encode latitude", function () {
         var s;
