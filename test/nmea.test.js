@@ -158,8 +158,17 @@ describe('nmea',function() {
        if (n !== null) {
          assert.ok(n.id === s,s + '!== ' + n.id);
        }
-
     })
+
+    it("VHW parse", function() {
+       var s = "IIVHW";
+       var n = nmea.parse("$IIVHW,183.0,T,171.0,M,3.63,N.4.56,K*5B");
+       assert.ok(n !== null,'parser result not null');
+       if (n !== null) {
+         assert.ok(n.id === s,s + '!== ' + n.id);
+       }
+    })
+
 
 
     it("encode latitude", function () {
